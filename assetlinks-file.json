@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.medconnect.study",
+    "sha256_cert_fingerprints": ["86:DF:CB:92:B8:67:1F:58:A2:3E:E1:7B:8C:53:5A:53:74:0A:AB:BF:DA:37:01:21:2C:06:78:5D:1E:44:A3:3E"]
+  }
+}]
