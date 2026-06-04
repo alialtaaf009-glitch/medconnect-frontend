@@ -1,5 +1,16 @@
+[build]
+  publish = "."
+
+[build.processing]
+  skip_processing = true
+
 [[redirects]]
   from = "/.well-known/assetlinks.json"
   to = "/assetlinks-file.json"
   status = 200
   force = true
+
+[[headers]]
+  for = "/assetlinks-file.json"
+  [headers.values]
+    Content-Type = "application/json"
