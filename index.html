@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>MedConnect — Global Study Partner Network</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1f4d3f">
+<meta name="description" content="Find verified doctors preparing for the same medical exam, on a compatible timeline, anywhere in the world.">
+<link rel="icon" href="favicon-48.png" sizes="48x48">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="MedConnect">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#15201c;
+  --paper:#f4f1e8;
+  --paper-2:#ece7d8;
+  --card:#fbfaf4;
+  --line:#dcd5c2;
+  --forest:#1f4d3f;
+  --forest-2:#2c6a55;
+  --rust:#a8442a;
+  --gold:#b98a2e;
+  --muted:#6b7670;
+  --subtle:#9aa39c;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:var(--paper);
+  color:var(--ink);
+  min-height:100vh;
+  max-width:100vw;
+  overflow-x:hidden;
+  background-image:radial-gradient(var(--paper-2) 1px,transparent 1px);
+  background-size:22px 22px;
+}
+::selection{background:var(--forest);color:#fff}
+
+.notif{position:fixed;top:24px;left:50%;transform:translateX(-50%) translateY(-120%);
+  background:var(--ink);color:var(--paper);padding:13px 26px;border-radius:40px;
+  font-size:14px;font-weight:600;z-index:9999;box-shadow:0 12px 40px rgba(0,0,0,.25);
+  transition:transform .4s cubic-bezier(.2,1,.3,1),opacity .3s,visibility .3s;
+  letter-spacing:.2px;font-family:'Newsreader',serif;opacity:0;visibility:hidden}
+.notif.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
+
+nav{background:rgba(244,241,232,.92);backdrop-filter:blur(12px);border-bottom:1.5px solid var(--line);
+  padding:0 28px;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right));
+  display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px;
+  position:sticky;top:0;z-index:1000;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:13px;cursor:pointer;flex-shrink:0}
+.brand-mark{width:40px;height:40px;background:var(--forest);border-radius:11px;display:flex;
+  align-items:center;justify-content:center;color:var(--paper);font-family:'Fraunces',serif;
+  font-weight:900;font-size:21px;flex-shrink:0}
+.brand-name{font-family:'Fraunces',serif;font-size:20px;font-weight:700;letter-spacing:-.5px;line-height:1}
+.brand-sub{font-size:10px;color:var(--muted);letter-spacing:1.4px;text-transform:uppercase;margin-top:3px}
+.nav-links{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.nav-btn{padding:9px 14px;border-radius:9px;border:none;background:transparent;color:var(--muted);
+  font-family:'Newsreader',serif;font-weight:600;font-size:15px;cursor:pointer;transition:.2s;white-space:nowrap}
+.nav-btn:hover{color:var(--ink)}
+.nav-btn.active{background:var(--forest);color:var(--paper)}
+.nav-badge{display:inline-block;min-width:18px;height:18px;line-height:18px;text-align:center;
+  background:var(--rust);color:#fff;border-radius:9px;font-size:11px;font-weight:700;margin-left:6px;padding:0 5px}
+.btn-cta{background:var(--rust);color:#fff;border:none;padding:11px 20px;border-radius:9px;
+  font-family:'Newsreader',serif;font-weight:600;font-size:14.5px;cursor:pointer;transition:.2s;
+  box-shadow:0 4px 14px rgba(168,68,42,.25)}
+.btn-cta:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(168,68,42,.35)}
+
+.page{max-width:1140px;margin:0 auto;padding:44px 28px 80px;display:none;animation:fade .5s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* HERO */
+.hero{position:relative;padding:60px 50px;border:1.5px solid var(--line);border-radius:20px;
+  background:var(--card);margin-bottom:46px;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-80px;top:-80px;width:320px;height:320px;
+  background:radial-gradient(circle,rgba(31,77,63,.08),transparent 70%);border-radius:50%}
+.hero-eyebrow{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--rust);
+  font-weight:600;margin-bottom:18px}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(34px,5vw,56px);font-weight:900;
+  line-height:1.02;letter-spacing:-1.5px;max-width:680px;margin-bottom:20px}
+.hero h1 em{font-style:italic;color:var(--forest);padding-right:.18em}
+.hero p{font-size:18px;color:var(--muted);max-width:540px;line-height:1.55;margin-bottom:30px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn-ghost{background:transparent;color:var(--forest);border:1.5px solid var(--forest);
+  padding:11px 22px;border-radius:9px;font-family:'Newsreader',serif;font-weight:600;
+  font-size:14.5px;cursor:pointer;transition:.2s}
+.btn-ghost:hover{background:var(--forest);color:var(--paper)}
+.hero-stats{display:flex;gap:38px;margin-top:42px;padding-top:30px;border-top:1px solid var(--line)}
+.stat-num{font-family:'Fraunces',serif;font-size:30px;font-weight:700;color:var(--forest);line-height:1}
+.stat-lbl{font-size:13px;color:var(--muted);margin-top:5px}
+
+.sect{display:flex;align-items:baseline;gap:16px;margin:46px 0 22px}
+.sect h2{font-family:'Fraunces',serif;font-size:15px;font-weight:700;text-transform:uppercase;
+  letter-spacing:1.5px;white-space:nowrap}
+.sect-line{height:1px;background:var(--line);flex:1}
+.sect-count{font-size:13px;color:var(--subtle)}
+.region{border:1.5px solid var(--line);border-radius:14px;background:var(--card);margin-bottom:14px;overflow:hidden}
+.region-head{width:100%;display:flex;align-items:center;gap:13px;padding:18px 20px;background:transparent;
+  border:none;cursor:pointer;font-family:'Fraunces',serif;text-align:left}
+.region-flag{font-size:24px}
+.region-name{font-size:17px;font-weight:700;color:var(--ink);flex:1}
+.region-count{font-family:'Newsreader',serif;font-size:13px;color:var(--muted);font-weight:500}
+.region-chevron{font-size:22px;color:var(--muted);transition:transform .25s ease;line-height:1}
+.region.open .region-chevron{transform:rotate(180deg)}
+.region-body{max-height:0;opacity:0;overflow:hidden;padding:0 20px;transition:max-height .3s ease,opacity .25s ease,padding .3s ease}
+.region.open .region-body{max-height:3000px;opacity:1;padding:0 20px 20px}
+
+.exam-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.exam-card{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);
+  padding:22px;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
+.exam-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--ec,var(--forest))}
+.exam-card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(21,32,28,.1);border-color:var(--ec,var(--forest))}
+.exam-flag{font-size:30px;margin-bottom:12px;display:block}
+.exam-name{font-family:'Fraunces',serif;font-weight:700;font-size:18px;margin-bottom:5px}
+.exam-steps{font-size:13.5px;color:var(--muted);line-height:1.45}
+.exam-tag{position:absolute;top:18px;right:18px;font-size:11px;font-weight:700;color:var(--ec,var(--forest));
+  background:var(--paper-2);padding:3px 9px;border-radius:20px}
+
+/* FILTERS */
+.filter-bar{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);
+  padding:18px;margin-bottom:26px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.sel{padding:10px 14px;border-radius:9px;border:1.5px solid var(--line);font-size:14px;
+  background:var(--paper);color:var(--ink);cursor:pointer;outline:none;font-family:'Newsreader',serif;transition:.2s}
+.sel:focus{border-color:var(--forest)}
+.filter-spacer{flex:1}
+.match-note{font-size:13px;color:var(--muted);font-style:italic}
+
+.peer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(345px,1fr));gap:22px}
+.peer-card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:26px;
+  display:flex;flex-direction:column;position:relative;transition:.25s}
+.peer-card:hover{box-shadow:0 14px 34px rgba(21,32,28,.09)}
+.peer-card.linked{border-color:var(--forest);box-shadow:0 0 0 1px var(--forest)}
+.match-pill{position:absolute;top:20px;right:20px;font-family:'Fraunces',serif;font-weight:700;
+  font-size:13px;padding:5px 12px;border-radius:30px;display:flex;align-items:center;gap:5px}
+.peer-head{display:flex;gap:15px;align-items:center;margin-bottom:16px;padding-right:70px}
+.avatar{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.avatar.female{background:#f3d9e4}
+.avatar.male{background:#cfe0e8}
+.peer-name{font-family:'Fraunces',serif;font-weight:700;font-size:18px;line-height:1.1}
+.peer-meta{font-size:13px;color:var(--muted);margin-top:4px}
+.badges{margin:4px 0 12px;display:flex;flex-wrap:wrap;gap:7px}
+.badge{font-size:12px;font-weight:600;padding:5px 11px;border-radius:7px}
+.peer-bio{font-size:15px;color:#3a463f;line-height:1.55;margin-bottom:16px;flex-grow:1}
+.peer-inst{font-size:13px;color:var(--muted);margin:-6px 0 12px;font-style:italic}
+.avatar-wrap{position:relative;flex-shrink:0}
+.online-dot{position:absolute;bottom:0;right:0;width:13px;height:13px;border-radius:50%;
+  background:#2ecc71;border:2.5px solid var(--card);box-shadow:0 0 0 1px #2ecc71}
+.presence-on{color:#1f9d57;font-weight:600}
+.presence-off{color:var(--subtle)}
+.peer-safety{display:flex;gap:14px;justify-content:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.safety-btn{background:none;border:none;color:var(--subtle);font-family:'Newsreader',serif;font-size:12.5px;
+  cursor:pointer;padding:2px 4px}
+.safety-btn:hover{color:var(--rust)}
+.tracker{background:var(--paper-2);border:1px solid var(--line);padding:11px 15px;border-radius:10px;
+  font-size:13px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.tracker-lbl{color:var(--muted);font-weight:600}
+.tracker-val{font-family:'Fraunces',serif;font-weight:700;color:var(--forest)}
+.tracker-val.soon{color:var(--rust)}
+.peer-actions{display:flex;gap:10px;margin-top:auto}
+.btn-link{flex:1;padding:11px;border-radius:9px;border:none;font-family:'Newsreader',serif;
+  font-weight:600;font-size:14px;cursor:pointer;transition:.2s;background:var(--forest);color:var(--paper)}
+.btn-link:hover{background:var(--forest-2)}
+.btn-link.done{background:var(--paper-2);color:var(--forest);cursor:default}
+.btn-msg{padding:11px 16px;border-radius:9px;border:1.5px solid var(--line);background:transparent;
+  color:var(--ink);font-family:'Newsreader',serif;font-weight:600;font-size:14px;cursor:pointer;transition:.2s}
+.btn-msg:hover{border-color:var(--forest);color:var(--forest)}
+.empty{grid-column:1/-1;padding:60px;text-align:center;color:var(--muted);font-size:17px;font-style:italic}
+.req-wrap{background:#fbf4e8;border:1.5px solid var(--gold);border-radius:14px;padding:18px;margin-bottom:24px}
+.req-title{font-family:'Fraunces',serif;font-weight:700;font-size:16px;margin-bottom:14px;color:#8a6620}
+.req-card{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);
+  border-radius:11px;padding:12px 14px;margin-bottom:10px}
+.req-card:last-child{margin-bottom:0}
+.req-name{font-family:'Fraunces',serif;font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.req-sub{font-size:12.5px;color:var(--muted)}
+.req-accept{background:var(--forest);color:var(--paper);border:none;padding:9px 16px;border-radius:8px;
+  font-family:'Newsreader',serif;font-weight:600;font-size:13.5px;cursor:pointer;white-space:nowrap}
+.req-decline{background:transparent;color:var(--muted);border:1px solid var(--line);padding:9px 14px;
+  border-radius:8px;font-family:'Newsreader',serif;font-weight:600;font-size:13.5px;cursor:pointer;white-space:nowrap}
+
+/* CHAT */
+.chat-layout{display:grid;grid-template-columns:300px 1fr;gap:22px;height:620px}
+.chat-side{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:18px;overflow-y:auto}
+.side-title{font-size:11px;font-weight:700;color:var(--subtle);letter-spacing:1.5px;
+  text-transform:uppercase;margin-bottom:14px}
+.conn-item{display:flex;gap:12px;padding:11px;border-radius:10px;cursor:pointer;align-items:center;transition:.2s;margin-bottom:4px}
+.conn-item:hover{background:var(--paper-2)}
+.conn-item.active{background:var(--forest);color:var(--paper)}
+.conn-item.active .conn-sub{color:#cfe0d8}
+.conn-name{font-weight:600;font-size:14.5px}
+.conn-sub{font-size:12px;color:var(--muted)}
+.chat-win{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);display:flex;
+  flex-direction:column;overflow:hidden}
+.chat-head{padding:18px 22px;border-bottom:1.5px solid var(--line);background:var(--paper)}
+.chat-head-name{font-family:'Fraunces',serif;font-weight:700;font-size:17px}
+.chat-head-sub{font-size:13px;color:var(--muted);margin-top:2px}
+.chat-stream{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:12px}
+.bubble{max-width:68%;padding:13px 17px;border-radius:16px;font-size:15px;line-height:1.5}
+.bubble.me{align-self:flex-end;background:var(--forest);color:var(--paper);border-bottom-right-radius:4px}
+.bubble.them{align-self:flex-start;background:var(--paper-2);color:var(--ink);border-bottom-left-radius:4px}
+.bubble-time{font-size:11px;opacity:.6;margin-top:5px;display:block}
+.chat-input-row{display:flex;padding:18px;border-top:1.5px solid var(--line);gap:11px;background:var(--paper)}
+.chat-input{flex:1;padding:13px 16px;border-radius:10px;border:1.5px solid var(--line);outline:none;
+  font-size:15px;font-family:'Newsreader',serif;background:var(--card)}
+.chat-input:focus{border-color:var(--forest)}
+.chat-send{background:var(--forest);color:var(--paper);border:none;padding:0 24px;border-radius:10px;
+  font-family:'Newsreader',serif;font-weight:600;font-size:15px;cursor:pointer;transition:.2s}
+.chat-send:hover{background:var(--forest-2)}
+
+/* MODAL */
+.overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(21,32,28,.55);backdrop-filter:blur(4px);z-index:9998;
+  display:none;align-items:center;justify-content:center;padding:20px}
+.overlay.show{display:flex;animation:fade .25s}
+.modal{background:var(--card);border-radius:20px;padding:38px;max-width:540px;width:100%;
+  max-height:92vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.3);border:1.5px solid var(--line)}
+.modal-title{font-family:'Fraunces',serif;font-size:26px;font-weight:700;margin-bottom:6px}
+.modal-sub{font-size:15px;color:var(--muted);margin-bottom:28px;line-height:1.5}
+.lbl{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:7px;
+  letter-spacing:1px;text-transform:uppercase}
+.inp,.msel{width:100%;padding:13px;border-radius:10px;border:1.5px solid var(--line);
+  background:var(--paper);margin-bottom:18px;font-size:15px;outline:none;font-family:'Newsreader',serif;color:var(--ink)}
+.inp:focus,.msel:focus{border-color:var(--forest)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.modal-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:10px}
+.tip{background:var(--paper-2);border-left:3px solid var(--gold);padding:12px 15px;border-radius:8px;
+  font-size:13.5px;color:#54483a;margin-bottom:22px;line-height:1.5}
+.auth-gate{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9000;background:var(--paper);
+  background-image:radial-gradient(var(--paper-2) 1px,transparent 1px);background-size:22px 22px;
+  display:flex;align-items:center;justify-content:center;padding:24px}
+.auth-card{background:var(--card);border:1.5px solid var(--line);border-radius:20px;
+  padding:34px 30px;max-width:420px;width:100%;box-shadow:0 24px 60px rgba(21,32,28,.14)}
+.auth-brand{display:flex;justify-content:center;margin-bottom:18px}
+.auth-title{font-family:'Fraunces',serif;font-size:26px;font-weight:700;text-align:center;margin-bottom:4px}
+.auth-sub{font-size:15px;color:var(--muted);text-align:center;margin-bottom:24px}
+.auth-error{background:#fbe9e4;border:1px solid #e5b8ab;color:#9a3a22;padding:11px 14px;
+  border-radius:9px;font-size:13.5px;margin-bottom:16px}
+.auth-toggle{text-align:center;font-size:14px;color:var(--muted);margin-top:18px}
+.auth-toggle a{color:var(--forest);font-weight:600;text-decoration:none;margin-left:5px}
+.auth-toggle a:hover{text-decoration:underline}
+@media(max-width:760px){
+  .page{padding:28px 16px 70px}
+  .hero{padding:38px 22px}
+  .exam-grid{grid-template-columns:1fr}
+  .peer-grid{grid-template-columns:1fr}
+  .chat-layout{grid-template-columns:1fr;height:auto}
+  .chat-side{max-height:200px}
+  .chat-win{height:480px}
+  nav{flex-direction:column;align-items:stretch;padding:10px 14px;gap:8px;
+    padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right))}
+  .brand{justify-content:flex-start}
+  .brand-sub{display:none}
+  .nav-links{width:100%;justify-content:space-between;gap:4px;flex-wrap:nowrap}
+  .nav-links .nav-btn{padding:8px 6px;font-size:13.5px;flex:1;text-align:center}
+  .btn-cta{padding:8px 10px;font-size:13px}
+  #installBtn{order:5}
+  .row2{grid-template-columns:1fr}
+  .filter-bar{flex-direction:column;align-items:stretch}
+  .filter-bar .sel{width:100%}
+  .filter-spacer{display:none}
+}
+</style>
+</head>
+<body>
+<div class="notif" id="notif"></div>
+
+<!-- AUTH GATE (shown only in LIVE mode when not logged in) -->
+<div class="auth-gate" id="authGate" style="display:none">
+  <div class="auth-card">
+    <div class="auth-brand"><div class="brand-mark" style="width:48px;height:48px;font-size:24px">M</div></div>
+    <h2 class="auth-title" id="authTitle">Welcome back</h2>
+    <p class="auth-sub" id="authSub">Log in to find your study partners.</p>
+    <div id="authError" class="auth-error" style="display:none"></div>
+    <div id="regOnly" style="display:none">
+      <label class="lbl">Full name</label>
+      <input class="inp" id="au-name" placeholder="Dr. Ali Altaf">
+      <label class="lbl">Gender</label>
+      <select class="msel" id="au-gender"><option>Female</option><option>Male</option></select>
+    </div>
+    <label class="lbl">Email</label>
+    <input class="inp" id="au-email" type="email" placeholder="you@example.com" autocomplete="email">
+    <label class="lbl">Password</label>
+    <input class="inp" id="au-pass" type="password" placeholder="••••••••" autocomplete="current-password">
+    <button class="btn-cta" id="authSubmit" style="width:100%;margin-top:8px" onclick="submitAuth()">Log in</button>
+    <p class="auth-toggle">
+      <span id="authToggleText">New here?</span>
+      <a href="#" id="authToggleLink" onclick="toggleAuthMode(event)">Create an account</a>
+    </p>
+  </div>
+</div>
+
+<nav>
+  <div class="brand" onclick="go('home')">
+    <div class="brand-mark">M</div>
+    <div>
+      <div class="brand-name">MedConnect</div>
+      <div class="brand-sub">Global Study Network</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <button class="nav-btn active" id="nav-home" onclick="go('home')">Home</button>
+    <button class="nav-btn" id="nav-browse" onclick="go('browse')">Partners</button>
+    <button class="nav-btn" id="nav-chat" onclick="go('chat')">Messages<span class="nav-badge" id="chatBadge" style="display:none">0</span></button>
+    <button class="btn-ghost" id="installBtn" style="display:none;padding:9px 14px;font-size:13.5px" onclick="installApp()">⤓ Install</button>
+    <button class="btn-cta" id="profileBtn" onclick="openModal()">Profile</button>
+    <button class="nav-btn" id="logoutBtn" style="display:none" onclick="logout()">Log out</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-eyebrow">For doctors, by doctors</div>
+    <h1>Find the right <em>study&nbsp;partner</em>&nbsp;for your medical exam.</h1>
+    <p>Match with verified doctors preparing for the same boards, the same exam parts, and on a compatible timeline — wherever they are in the world.</p>
+    <div class="hero-actions">
+      <button class="btn-cta" onclick="go('browse')">Browse Partners</button>
+      <button class="btn-ghost" onclick="openModal()">Set Up My Profile</button>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num" id="statDocs">0</div><div class="stat-lbl">Active doctors</div></div>
+      <div><div class="stat-num">24</div><div class="stat-lbl">Exam tracks</div></div>
+      <div><div class="stat-num">5</div><div class="stat-lbl">Countries</div></div>
+    </div>
+  </div>
+
+  <div class="region" id="region-us">
+    <button class="region-head" onclick="toggleRegion('us')">
+      <span class="region-flag">🇺🇸</span>
+      <span class="region-name">United States</span>
+      <span class="region-count" id="count-us"></span>
+      <span class="region-chevron">⌄</span>
+    </button>
+    <div class="exam-grid region-body" id="grid-us"></div>
+  </div>
+
+  <div class="region" id="region-uk">
+    <button class="region-head" onclick="toggleRegion('uk')">
+      <span class="region-flag">🇬🇧</span>
+      <span class="region-name">United Kingdom</span>
+      <span class="region-count" id="count-uk"></span>
+      <span class="region-chevron">⌄</span>
+    </button>
+    <div class="exam-grid region-body" id="grid-uk"></div>
+  </div>
+
+  <div class="region" id="region-pk">
+    <button class="region-head" onclick="toggleRegion('pk')">
+      <span class="region-flag">🇵🇰</span>
+      <span class="region-name">Pakistan — FCPS</span>
+      <span class="region-count" id="count-pk"></span>
+      <span class="region-chevron">⌄</span>
+    </button>
+    <div class="exam-grid region-body" id="grid-pk"></div>
+  </div>
+
+  <div class="region" id="region-au">
+    <button class="region-head" onclick="toggleRegion('au')">
+      <span class="region-flag">🇦🇺</span>
+      <span class="region-name">Australia</span>
+      <span class="region-count" id="count-au"></span>
+      <span class="region-chevron">⌄</span>
+    </button>
+    <div class="exam-grid region-body" id="grid-au"></div>
+  </div>
+
+  <div class="region" id="region-ie">
+    <button class="region-head" onclick="toggleRegion('ie')">
+      <span class="region-flag">🇮🇪</span>
+      <span class="region-name">Ireland</span>
+      <span class="region-count" id="count-ie"></span>
+      <span class="region-chevron">⌄</span>
+    </button>
+    <div class="exam-grid region-body" id="grid-ie"></div>
+  </div>
+</div>
+
+<!-- BROWSE -->
+<div class="page" id="page-browse">
+  <div class="sect" style="margin-top:0"><h2>Find a Study Partner</h2><div class="sect-line"></div><span class="sect-count" id="resultCount"></span></div>
+  <div class="filter-bar">
+    <select class="sel" id="f-gender" onchange="renderPeers()">
+      <option value="">All genders</option>
+      <option value="Female">Female</option>
+      <option value="Male">Male</option>
+    </select>
+    <select class="sel" id="f-exam" onchange="onExamFilter()">
+      <option value="">All exams</option>
+    </select>
+    <select class="sel" id="f-step" onchange="renderPeers()">
+      <option value="">All parts</option>
+    </select>
+    <select class="sel" id="f-level" onchange="renderPeers()">
+      <option value="">Any prep stage</option>
+      <option value="Just Started">Just started</option>
+      <option value="1–3 Months In">1–3 months in</option>
+      <option value="3–6 Months In">3–6 months in</option>
+      <option value="6+ Months / Polishing">6+ months / polishing</option>
+    </select>
+    <button class="btn-ghost" style="padding:8px 14px;font-size:13px" onclick="clearFilters()">Clear</button>
+    <div class="filter-spacer"></div>
+    <span class="match-note" id="matchNote">Set up your profile to see match scores</span>
+  </div>
+  <div id="requestsBanner"></div>
+  <div class="peer-grid" id="peerGrid"></div>
+</div>
+
+<!-- CHAT -->
+<div class="page" id="page-chat">
+  <div class="sect" style="margin-top:0"><h2>Messages</h2><div class="sect-line"></div></div>
+  <div class="chat-layout">
+    <div class="chat-side">
+      <div class="side-title">Your Connections</div>
+      <div id="connList"></div>
+    </div>
+    <div class="chat-win">
+      <div class="chat-head">
+        <div class="chat-head-name" id="chatName">No conversation selected</div>
+        <div class="chat-head-sub" id="chatSub">Pick a connection from the left to start chatting</div>
+      </div>
+      <div class="chat-stream" id="chatStream">
+        <div class="bubble them">Select a connection to start a conversation.</div>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chatInput" placeholder="Write a message…" onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="chat-send" onclick="sendMsg()">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-title">Set up your profile</div>
+    <div class="modal-sub">Tell us what you're preparing for. We'll use this to rank the best-matched study partners for you.</div>
+    <div class="tip">💡 Matches are scored on shared exam &amp; part, similar prep stage, close exam dates, and overlapping time zones.</div>
+    <label class="lbl">Full name</label>
+    <input class="inp" id="p-name" placeholder="Dr. Ali Altaf">
+    <label class="lbl">Gender</label>
+    <select class="msel" id="p-gender"><option>Female</option><option>Male</option></select>
+    <div class="row2">
+      <div>
+        <label class="lbl">Target exam</label>
+        <select class="msel" id="p-exam" onchange="syncModalSteps()"></select>
+      </div>
+      <div>
+        <label class="lbl">Exam part</label>
+        <select class="msel" id="p-step"></select>
+      </div>
+    </div>
+    <label class="lbl">Preparation stage</label>
+    <select class="msel" id="p-level">
+      <option>Just Started</option>
+      <option>1–3 Months In</option>
+      <option>3–6 Months In</option>
+      <option>6+ Months / Polishing</option>
+    </select>
+    <div class="row2">
+      <div>
+        <label class="lbl">Target exam date</label>
+        <input type="date" class="inp" id="p-date" value="2026-10-12">
+      </div>
+      <div>
+        <label class="lbl">Time zone</label>
+        <select class="msel" id="p-tz">
+          <option value="UTC-8">UTC−8 · US Pacific</option>
+          <option value="UTC-7">UTC−7 · US Mountain</option>
+          <option value="UTC-6">UTC−6 · US Central</option>
+          <option value="UTC-5">UTC−5 · US Eastern</option>
+          <option value="UTC-3">UTC−3 · Brazil, Argentina</option>
+          <option value="UTC+0" selected>UTC+0 · UK, Ireland, Portugal</option>
+          <option value="UTC+1">UTC+1 · Central Europe, Nigeria</option>
+          <option value="UTC+2">UTC+2 · Egypt, South Africa</option>
+          <option value="UTC+3">UTC+3 · East Africa, Saudi, Iraq</option>
+          <option value="UTC+3:30">UTC+3:30 · Iran</option>
+          <option value="UTC+4">UTC+4 · UAE, Oman</option>
+          <option value="UTC+5">UTC+5 · Pakistan</option>
+          <option value="UTC+5:30">UTC+5:30 · India, Sri Lanka</option>
+          <option value="UTC+5:45">UTC+5:45 · Nepal</option>
+          <option value="UTC+6">UTC+6 · Bangladesh</option>
+          <option value="UTC+7">UTC+7 · Thailand, Vietnam</option>
+          <option value="UTC+8">UTC+8 · China, Singapore, Malaysia</option>
+          <option value="UTC+9">UTC+9 · Japan, Korea</option>
+          <option value="UTC+10">UTC+10 · East Australia</option>
+          <option value="UTC+12">UTC+12 · New Zealand</option>
+        </select>
+      </div>
+    </div>
+    <label class="lbl">Medical school / college <span style="text-transform:none;font-weight:400;color:var(--subtle)">(optional)</span></label>
+    <input class="inp" id="p-institution" placeholder="e.g. King Edward Medical University">
+    <label class="lbl">Short bio <span style="text-transform:none;font-weight:400;color:var(--subtle)">(optional)</span></label>
+    <textarea class="inp" id="p-bio" rows="2" placeholder="What you're looking for in a study partner…" style="resize:vertical;font-family:inherit"></textarea>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn-cta" onclick="saveProfile()">Save Profile</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- Reference data ---------- */
+const EXAMS = {
+  "USMLE":{flag:"🇺🇸",label:"USMLE",region:"us",color:"#1a5f7a",steps:["Step 1","Step 2 CK","Step 3"],desc:"Step 1 · Step 2 CK · Step 3"},
+  "PLAB":{flag:"🇬🇧",label:"PLAB / UKMLA",region:"uk",color:"#2e4a7a",steps:["PLAB 1 / AKT","PLAB 2 / CPSA"],desc:"PLAB 1 (AKT) · PLAB 2 (CPSA)"},
+  "MRCP":{flag:"🇬🇧",label:"MRCP (Medicine)",region:"uk",color:"#1a6b5a",steps:["Part 1","Part 2 Written","PACES"],desc:"Part 1 · Part 2 · PACES"},
+  "MRCS":{flag:"🇬🇧",label:"MRCS (Surgery)",region:"uk",color:"#5a3a7a",steps:["Part A","Part B (OSCE)"],desc:"Part A · Part B (OSCE)"},
+  "MRCPCH":{flag:"🇬🇧",label:"MRCPCH (Paediatrics)",region:"uk",color:"#1a6b8a",steps:["FOP","TAS","AKP","Clinical"],desc:"FOP · TAS · AKP · Clinical"},
+  "MRCOG":{flag:"🇬🇧",label:"MRCOG (O&G)",region:"uk",color:"#a23a6a",steps:["Part 1","Part 2","Part 3"],desc:"Part 1 · Part 2 · Part 3"},
+  "MRCGP":{flag:"🇬🇧",label:"MRCGP (General Practice)",region:"uk",color:"#3a7a4a",steps:["AKT","SCA","WPBA"],desc:"AKT · SCA · WPBA"},
+  "MRCPath":{flag:"🇬🇧",label:"MRCPath (Pathology)",region:"uk",color:"#7a5a1a",steps:["Part 1","Part 2"],desc:"Part 1 · Part 2"},
+  "MRCPsych":{flag:"🇬🇧",label:"MRCPsych (Psychiatry)",region:"uk",color:"#5a4a8a",steps:["Paper A","Paper B","CASC"],desc:"Paper A · Paper B · CASC"},
+  "MRCEM":{flag:"🇬🇧",label:"MRCEM (Emergency Med)",region:"uk",color:"#b5602a",steps:["Primary","SBA","OSCE"],desc:"Primary · SBA · OSCE"},
+  "FCPS-Medicine":{flag:"🇵🇰",label:"FCPS Medicine & Allied",region:"pk",color:"#6a1a5a",steps:["Part 1","IMM","Part 2"],desc:"Internal Medicine & Allied"},
+  "FCPS-Surgery":{flag:"🇵🇰",label:"FCPS Surgery & Allied",region:"pk",color:"#7a2a1a",steps:["Part 1","IMM","Part 2"],desc:"General Surgery & Allied"},
+  "FCPS-GynaeObs":{flag:"🇵🇰",label:"FCPS Gynae & Obs",region:"pk",color:"#a2386a",steps:["Part 1","IMM","Part 2"],desc:"Obstetrics & Gynaecology"},
+  "FCPS-Paeds":{flag:"🇵🇰",label:"FCPS Paediatrics",region:"pk",color:"#2a6a8a",steps:["Part 1","IMM","Part 2"],desc:"Paediatric Medicine"},
+  "FCPS-Pathology":{flag:"🇵🇰",label:"FCPS Pathology",region:"pk",color:"#7a6a1a",steps:["Part 1","IMM","Part 2"],desc:"Histo / Haem / Micro / Chem"},
+  "FCPS-Ophthalmology":{flag:"🇵🇰",label:"FCPS Ophthalmology",region:"pk",color:"#1a7a6a",steps:["Part 1","IMM","Part 2"],desc:"Eye"},
+  "FCPS-ENT":{flag:"🇵🇰",label:"FCPS ENT",region:"pk",color:"#8a4a2a",steps:["Part 1","IMM","Part 2"],desc:"Otorhinolaryngology"},
+  "AMC":{flag:"🇦🇺",label:"AMC (Australia)",region:"au",color:"#1a5a8a",steps:["AMC MCQ (CAT)","AMC Clinical"],desc:"MCQ (CAT) · Clinical"},
+  "RACP":{flag:"🇦🇺",label:"RACP (Physicians)",region:"au",color:"#2a6a7a",steps:["Written","Clinical"],desc:"Written · Clinical"},
+  "RACS":{flag:"🇦🇺",label:"RACS (Surgeons)",region:"au",color:"#5a4a2a",steps:["GSSE","Fellowship"],desc:"GSSE · Fellowship"},
+  "MRCPI":{flag:"🇮🇪",label:"MRCPI (Medicine)",region:"ie",color:"#1a7a4a",steps:["Part 1","Part 2 Written","Clinical"],desc:"Part 1 · Part 2 · Clinical"},
+  "MRCSI":{flag:"🇮🇪",label:"MRCSI (Surgery)",region:"ie",color:"#3a6a3a",steps:["Part A","Part B"],desc:"Part A · Part B"},
+  "MICGP":{flag:"🇮🇪",label:"MICGP (General Practice)",region:"ie",color:"#5a7a2a",steps:["MCQ","Clinical (OSCE)"],desc:"MCQ · Clinical (OSCE)"},
+  "FRCA-IE":{flag:"🇮🇪",label:"FRCA (Anaesthetics)",region:"ie",color:"#2a5a6a",steps:["Primary","Final"],desc:"Primary · Final"}
+};
+const LEVEL_ORDER=["Just Started","1–3 Months In","3–6 Months In","6+ Months / Polishing"];
+
+/* ---------- Seed peers ---------- */
+const SEED=[
+  {id:1,name:"Dr. Aisha Rahman",gender:"Female",country:"United Kingdom",exam:"PLAB",step:"PLAB 1 / AKT",level:"3–6 Months In",bio:"IMG preparing for PLAB 1. Looking for daily rapid-fire question partners — I do best with structured accountability.",tz:"UTC+0",date:"2026-11-15"},
+  {id:2,name:"Dr. James Okafor",gender:"Male",country:"United States",exam:"USMLE",step:"Step 1",level:"1–3 Months In",bio:"Tackling USMLE Step 1. Strong in pathology and pharm — happy to teach those in exchange for biochem help.",tz:"UTC-5",date:"2026-09-20"},
+  {id:3,name:"Dr. Zainab Malik",gender:"Female",country:"Pakistan",exam:"FCPS-Medicine",step:"Part 1",level:"3–6 Months In",bio:"FCPS Part 1 Medicine using OHCM. Prefer female study partners. Evenings work best for me.",tz:"UTC+5",date:"2026-08-10"},
+  {id:4,name:"Dr. Hassan Al-Farsi",gender:"Male",country:"United Kingdom",exam:"MRCP",step:"Part 1",level:"6+ Months / Polishing",bio:"Cardiology trainee grinding PassMedicine for MRCP Part 1. In polish mode — want a partner for timed mocks.",tz:"UTC+0",date:"2026-07-05"},
+  {id:5,name:"Dr. Priya Nair",gender:"Female",country:"India",exam:"USMLE",step:"Step 2 CK",level:"3–6 Months In",bio:"Step 2 CK in a few months. UWorld blocks + Anki daily. Looking for someone to discuss tricky NBME questions.",tz:"UTC+5",date:"2026-10-30"},
+  {id:6,name:"Dr. Omar Said",gender:"Male",country:"Egypt",exam:"PLAB",step:"PLAB 1 / AKT",level:"1–3 Months In",bio:"Just started PLAB 1 prep with Plabable. Want a partner to keep momentum and split topic reviews.",tz:"UTC+3",date:"2026-12-01"},
+  {id:7,name:"Dr. Sara Lindqvist",gender:"Female",country:"Sweden",exam:"MRCP",step:"PACES",level:"6+ Months / Polishing",bio:"PACES in 6 weeks! Desperately want a partner for station practice over video. Can do early mornings.",tz:"UTC+1",date:"2026-07-18"},
+  {id:8,name:"Dr. Bilal Ahmed",gender:"Male",country:"Pakistan",exam:"FCPS-Surgery",step:"Part 1",level:"Just Started",bio:"Starting FCPS Surgery Part 1. Looking for a serious long-haul partner — anatomy and physiology focus.",tz:"UTC+5",date:"2027-02-15"},
+  {id:9,name:"Dr. Mei Chen",gender:"Female",country:"United States",exam:"USMLE",step:"Step 1",level:"Just Started",bio:"Brand new to Step 1 prep. Building my schedule now and want an accountability buddy from day one.",tz:"UTC-8",date:"2027-01-10"},
+  {id:10,name:"Dr. Tariq Noor",gender:"Male",country:"United Kingdom",exam:"PLAB",step:"PLAB 2 / CPSA",level:"3–6 Months In",bio:"Passed PLAB 1, now prepping PLAB 2 OSCE. Want a partner in or near the UK for in-person mock stations.",tz:"UTC+0",date:"2026-09-08"},
+  {id:11,name:"Dr. Fatima Sheikh",gender:"Female",country:"Pakistan",exam:"FCPS-GynaeObs",step:"Part 2",level:"3–6 Months In",bio:"FCPS Gynae & Obs Part 2. Looking for a partner for case discussions and TOACS practice. Female partners preferred.",tz:"UTC+5",date:"2026-10-05"},
+  {id:12,name:"Dr. Imran Khan",gender:"Male",country:"Pakistan",exam:"FCPS-Paeds",step:"Part 1",level:"1–3 Months In",bio:"FCPS Paediatrics Part 1. Strong on physiology, want help with the basic sciences side. Evenings PKT.",tz:"UTC+5",date:"2026-11-20"},
+  {id:13,name:"Dr. Hira Bukhari",gender:"Female",country:"Pakistan",exam:"FCPS-Pathology",step:"Part 1",level:"Just Started",bio:"Just began FCPS Pathology. Histopathology focus. Keen for a slow-and-steady partner to build foundations.",tz:"UTC+5",date:"2027-03-01"},
+  {id:14,name:"Dr. Daniyal Raza",gender:"Male",country:"Pakistan",exam:"FCPS-ENT",step:"Part 2",level:"6+ Months / Polishing",bio:"FCPS ENT Part 2 — in polish mode. Want a partner for viva-style rapid questioning and clinical scenarios.",tz:"UTC+5",date:"2026-08-25"},
+  {id:15,name:"Dr. Nadia Hussain",gender:"Female",country:"Pakistan",exam:"FCPS-Ophthalmology",step:"Part 1",level:"1–3 Months In",bio:"FCPS Ophthalmology Part 1. Looking for a partner to drill optics and ocular anatomy together.",tz:"UTC+5",date:"2026-12-15"},
+  {id:16,name:"Dr. Sophie Brennan",gender:"Female",country:"United Kingdom",exam:"MRCPCH",step:"FOP",level:"1–3 Months In",bio:"Paediatrics trainee on MRCPCH FOP. Want a study partner for the basic sciences and applied physiology.",tz:"UTC+0",date:"2026-10-18"},
+  {id:17,name:"Dr. Aoife Murphy",gender:"Female",country:"Ireland",exam:"MRCOG",step:"Part 2",level:"3–6 Months In",bio:"MRCOG Part 2 — EMQs and SBAs. Looking for a partner to compare answers and cover the green-top guidelines.",tz:"UTC+0",date:"2026-09-28"},
+  {id:18,name:"Dr. Kwame Mensah",gender:"Male",country:"Ghana",exam:"MRCGP",step:"AKT",level:"1–3 Months In",bio:"Prepping MRCGP AKT. Want a partner for spaced-repetition decks and weekly progress check-ins.",tz:"UTC+0",date:"2026-11-02"},
+  {id:19,name:"Dr. Lena Vogel",gender:"Female",country:"Germany",exam:"MRCPsych",step:"Paper A",level:"Just Started",bio:"Starting MRCPsych Paper A. Psychopharmacology and neurosciences focus. Happy to teach in exchange for stats help.",tz:"UTC+1",date:"2027-01-25"},
+  {id:20,name:"Dr. Rohan Mehta",gender:"Male",country:"India",exam:"MRCPath",step:"Part 1",level:"3–6 Months In",bio:"MRCPath Part 1 (Histopathology). Looking for a partner to swap slide reviews and exam-style questions.",tz:"UTC+5",date:"2026-10-12"}
+];
+
+/* ---------- State + persistence ---------- */
+const LS_KEY="medconnect_state_v1";
+let state={peers:[],connections:[],messages:{},profile:null,activeChat:null,requests:[]};
+
+/* ===========================================================
+   API CONFIG
+   Leave API_BASE empty ("") to run in local DEMO mode (single
+   device, sample doctors — no server needed).
+   To go LIVE multi-user: deploy medconnect-api, then set
+   API_BASE to its URL, e.g. "https://medconnect-api.onrender.com".
+   =========================================================== */
+const API_BASE = "https://medconnect-api-v2.vercel.app"; // live
+const LIVE = () => API_BASE.trim().length > 0;
+
+const Auth = {
+  token(){ return localStorage.getItem('mc_token') || null; },
+  set(t){ if(t) localStorage.setItem('mc_token',t); else localStorage.removeItem('mc_token'); },
+  loggedIn(){ return !!this.token(); }
+};
+
+async function api(path, {method='GET', body=null}={}){
+  const headers={'Content-Type':'application/json'};
+  const t=Auth.token(); if(t) headers.Authorization='Bearer '+t;
+  const res=await fetch(API_BASE+path,{method,headers,body:body?JSON.stringify(body):null});
+  if(res.status===401){ Auth.set(null); showAuth(); throw new Error('Session expired'); }
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(data.error||('Request failed ('+res.status+')'));
+  return data;
+}
+
+function loadState(){
+  try{const s=JSON.parse(localStorage.getItem(LS_KEY));if(s){state=Object.assign(state,s);}}catch(e){}
+  if(!state.peers||!state.peers.length)state.peers=SEED.map(p=>({...p}));
+}
+function saveState(){ if(LIVE())return; try{localStorage.setItem(LS_KEY,JSON.stringify(state));}catch(e){} }
+
+/* ---------- Match scoring ---------- */
+function tzNum(t){
+  t=(t||"UTC+0").replace("UTC","");
+  const m=t.match(/^([+-]?\d+)(?::(\d+))?/);
+  if(!m)return 0;
+  const h=parseInt(m[1])||0, min=m[2]?parseInt(m[2]):0;
+  return h + (h<0?-min/60:min/60);
+}
+function matchScore(peer){
+  const me=state.profile;if(!me)return null;
+  let s=0;
+  if(peer.exam===me.exam)s+=40;else if(EXAMS[peer.exam]&&EXAMS[me.exam]&&EXAMS[peer.exam].region===EXAMS[me.exam].region)s+=10;
+  if(peer.exam===me.exam&&peer.step===me.step)s+=25;
+  const ld=Math.abs(LEVEL_ORDER.indexOf(peer.level)-LEVEL_ORDER.indexOf(me.level));
+  s+=Math.max(0,15-ld*6);
+  if(peer.date&&me.date){const dd=Math.abs((new Date(peer.date)-new Date(me.date))/86400000);s+=dd<30?10:dd<90?6:dd<180?3:0;}
+  const tzd=Math.abs(tzNum(peer.tz)-tzNum(me.tz));s+=Math.max(0,10-tzd*1.5);
+  return Math.min(100,Math.round(s));
+}
+function matchVisual(score){
+  if(score>=80)return{txt:"Excellent",bg:"#dcefe6",fg:"#1f4d3f"};
+  if(score>=55)return{txt:"Good",bg:"#fbf0d8",fg:"#b98a2e"};
+  return{txt:"Fair",bg:"#f0ece2",fg:"#6b7670"};
+}
+
+/* ---------- Helpers ---------- */
+function daysLeft(d){if(!d)return null;const n=Math.ceil((new Date(d)-new Date())/86400000);return n>0?n:0;}
+function avatarChar(g){return g==="Female"?"👩‍⚕️":"👨‍⚕️";}
+function isOnline(lastActive){
+  if(!lastActive)return false;
+  const diff=(Date.now()-new Date(lastActive).getTime())/60000; // minutes
+  return diff>=0 && diff<5;
+}
+function presenceText(lastActive){
+  if(!lastActive)return '';
+  const diffMin=(Date.now()-new Date(lastActive).getTime())/60000;
+  if(diffMin<5)return 'Online now';
+  if(diffMin<60)return 'Active '+Math.round(diffMin)+'m ago';
+  const h=Math.round(diffMin/60);
+  if(h<24)return 'Active '+h+'h ago';
+  const d=Math.round(h/24);
+  return 'Active '+d+'d ago';
+}
+function flashNotif(t){const b=document.getElementById('notif');b.innerText=t;b.classList.add('show');clearTimeout(b._t);b._t=setTimeout(()=>b.classList.remove('show'),2600);}
+
+/* ---------- Navigation ---------- */
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  const nb=document.getElementById('nav-'+id);if(nb)nb.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='browse')renderPeers();
+  if(id==='chat'){renderChat();startChatPolling();}
+  else stopChatPolling();
+}
+let _chatPoll=null,_lastMsgCount=0;
+function startChatPolling(){
+  if(!LIVE()||_chatPoll)return;
+  _chatPoll=setInterval(()=>{ if(state.activeChat)refreshChatSilently(); },5000);
+}
+function stopChatPolling(){ if(_chatPoll){clearInterval(_chatPoll);_chatPoll=null;} }
+async function refreshChatSilently(){
+  // Re-fetch the open conversation; only redraw if the message count changed,
+  // so we don't disrupt scrolling or anything the user is doing.
+  const peerId=state.activeChat; if(!peerId)return;
+  try{
+    const rows=await api('/api/messages/'+peerId);
+    if(rows.length!==_lastMsgCount){ _lastMsgCount=rows.length; renderChat(true); updateChatBadge(); }
+  }catch(e){}
+}
+
+/* ---------- Home cards ---------- */
+function renderHome(){
+  document.getElementById('statDocs').innerText = LIVE() ? '—' : state.peers.length;
+  const regions={us:'grid-us',uk:'grid-uk',pk:'grid-pk',au:'grid-au',ie:'grid-ie'};
+  Object.values(regions).forEach(g=>document.getElementById(g).innerHTML='');
+  const regionExamCount={us:0,uk:0,pk:0,au:0,ie:0};
+  Object.entries(EXAMS).forEach(([code,e])=>{
+    regionExamCount[e.region]++;
+    const count=state.peers.filter(p=>p.exam===code).length;
+    const tag = LIVE() ? 'View →' : (count+' doctor'+(count!==1?'s':''));
+    const card=document.createElement('div');
+    card.className='exam-card';card.style.setProperty('--ec',e.color);
+    card.onclick=()=>examShortcut(code);
+    card.innerHTML=`<span class="exam-tag">${tag}</span>
+      <span class="exam-flag">${e.flag}</span>
+      <div class="exam-name">${e.label}</div>
+      <div class="exam-steps">${e.desc}</div>`;
+    document.getElementById(regions[e.region]).appendChild(card);
+  });
+  // fill exam counts in the region headers
+  Object.entries(regionExamCount).forEach(([r,n])=>{
+    const el=document.getElementById('count-'+r);
+    if(el)el.innerText=n+' exam'+(n!==1?'s':'');
+  });
+  // open the first region by default (only if none open yet)
+  if(!document.querySelector('.region.open')){
+    const first=document.getElementById('region-us');
+    if(first)first.classList.add('open');
+  }
+}
+function toggleRegion(r){
+  const el=document.getElementById('region-'+r);
+  if(el)el.classList.toggle('open');
+}
+function examShortcut(code){go('browse');document.getElementById('f-exam').value=code;onExamFilter();}
+
+/* ---------- Filters ---------- */
+function buildExamFilter(){
+  const sel=document.getElementById('f-exam');
+  Object.entries(EXAMS).forEach(([c,e])=>{const o=document.createElement('option');o.value=c;o.text=`${e.label} ${e.flag}`;sel.appendChild(o);});
+}
+function onExamFilter(){
+  const exam=document.getElementById('f-exam').value;
+  const sd=document.getElementById('f-step');
+  sd.innerHTML='<option value="">All parts</option>';
+  if(exam&&EXAMS[exam])EXAMS[exam].steps.forEach(s=>{const o=document.createElement('option');o.value=s;o.text=s;sd.appendChild(o);});
+  renderPeers();
+}
+function clearFilters(){
+  document.getElementById('f-gender').value='';
+  document.getElementById('f-exam').value='';
+  document.getElementById('f-step').innerHTML='<option value="">All parts</option>';
+  document.getElementById('f-level').value='';
+  renderPeers();
+}
+
+/* ---------- Peer rendering ---------- */
+async function renderPeers(){
+  const g=document.getElementById('f-gender').value,e=document.getElementById('f-exam').value,
+    s=document.getElementById('f-step').value,l=document.getElementById('f-level').value;
+  const box=document.getElementById('peerGrid');
+
+  let list;
+  if(LIVE()){
+    box.innerHTML='<div class="empty">Loading partners…</div>';
+    try{
+      const q=new URLSearchParams();
+      if(g)q.set('gender',g); if(e)q.set('exam',e); if(s)q.set('step',s); if(l)q.set('level',l);
+      const rows=await api('/api/partners'+(q.toString()?'?'+q:''));
+      // map API shape -> front-end peer shape
+      list=rows.map(r=>({
+        id:r.id,name:r.name,gender:r.gender,country:r.country||'',tz:r.timezone||'UTC+0',
+        exam:r.exam,step:r.step,level:r.level,bio:r.bio||'',date:r.exam_date,institution:r.institution||'',lastActive:r.last_active,
+        _score:r.match_score,_label:r.match_label,_conn:r.connection_status,
+        _connId:r.connection_id,_incoming:r.incoming
+      }));
+    }catch(err){box.innerHTML='<div class="empty">'+err.message+'</div>';return;}
+    await loadRequests(); renderRequestsBanner();
+  }else{
+    list=state.peers.filter(p=>{
+      if(g&&p.gender!==g)return false; if(e&&p.exam!==e)return false;
+      if(s&&p.step!==s)return false; if(l&&p.level!==l)return false; return true;
+    });
+    if(state.profile)list.forEach(p=>p._score=matchScore(p));
+  }
+  box.innerHTML='';
+
+  if(state.profile||LIVE()){
+    if(!LIVE())list.sort((a,b)=>b._score-a._score);
+    document.getElementById('matchNote').innerText=state.profile?('Sorted by match quality for '+state.profile.name):'Sorted by match quality';
+  }else document.getElementById('matchNote').innerText='Set up your profile to see match scores';
+  document.getElementById('resultCount').innerText=list.length+' doctor'+(list.length!==1?'s':'');
+  if(!list.length){box.innerHTML='<div class="empty">No doctors match these filters yet. Try widening your search.</div>';return;}
+  list.forEach(p=>{
+    const accepted = LIVE() ? (p._conn==='accepted') : state.connections.some(c=>c.id===p.id);
+    const incoming = LIVE() && p._incoming;
+    const requested = LIVE() && p._conn==='pending' && !incoming;
+    const linked = accepted || requested || incoming;
+    const ex=EXAMS[p.exam],col=ex?ex.color:'#1f4d3f';
+    const dl=daysLeft(p.date),soon=dl!==null&&dl<60;
+    let pill='';
+    if((state.profile||LIVE())&&p._score!=null){const v=matchVisual(p._score);pill=`<div class="match-pill" style="background:${v.bg};color:${v.fg}">★ ${p._score}% ${v.txt}</div>`;}
+    // Primary action button varies by state
+    let primaryBtn;
+    if(incoming) primaryBtn=`<button class="btn-link" style="background:var(--rust)" onclick="respondRequest(${p._connId},'accept')">✓ Accept request</button>`;
+    else if(accepted) primaryBtn=`<button class="btn-link done">✓ Connected</button>`;
+    else if(requested) primaryBtn=`<button class="btn-link done">⏳ Requested</button>`;
+    else primaryBtn=`<button class="btn-link" onclick="connect(${p.id})">Connect</button>`;
+    // Message enabled only once accepted (live mode); always in demo
+    const msgBtn = (!LIVE()||accepted)
+      ? `<button class="btn-msg" onclick="message(${p.id})">Message</button>`
+      : `<button class="btn-msg" style="opacity:.45" onclick="flashNotif('You can message once the connection is accepted.')">Message</button>`;
+    const card=document.createElement('div');
+    card.className='peer-card'+(linked?' linked':'');
+    const instLine = p.institution ? `<div class="peer-inst">🎓 ${p.institution}</div>` : '';
+    const safetyRow = LIVE() ? `<div class="peer-safety">
+        <button class="safety-btn" onclick="reportUser(${p.id},'${(p.name||'').replace(/'/g,"")}')">⚐ Report</button>
+        <button class="safety-btn" onclick="blockUser(${p.id},'${(p.name||'').replace(/'/g,"")}')">⊘ Block</button>
+      </div>` : '';
+    const online = LIVE() && isOnline(p.lastActive);
+    const presence = LIVE() ? presenceText(p.lastActive) : '';
+    card.innerHTML=`${pill}
+      <div class="peer-head">
+        <div class="avatar-wrap">
+          <div class="avatar ${p.gender.toLowerCase()}">${avatarChar(p.gender)}</div>
+          ${online?'<span class="online-dot"></span>':''}
+        </div>
+        <div><div class="peer-name">${p.name}</div><div class="peer-meta">${p.country?p.country+' · ':''}${p.tz}${presence?' · <span class="'+(online?'presence-on':'presence-off')+'">'+presence+'</span>':''}</div></div>
+      </div>
+      ${instLine}
+      <div class="badges">
+        <span class="badge" style="background:${col}1a;color:${col}">${ex?ex.label:p.exam}</span>
+        <span class="badge" style="background:#47556916;color:#475569">${p.step}</span>
+        <span class="badge" style="background:#b98a2e1f;color:#8a6620">${p.level}</span>
+      </div>
+      <p class="peer-bio">${p.bio}</p>
+      <div class="tracker"><span class="tracker-lbl">⏳ Exam in</span><span class="tracker-val ${soon?'soon':''}">${dl===null?'—':dl===0?'Exam passed':dl+' days'}</span></div>
+      <div class="peer-actions">${primaryBtn}${msgBtn}</div>
+      ${safetyRow}`;
+    box.appendChild(card);
+  });
+}
+
+/* ---------- Connections + chat ---------- */
+async function connect(id){
+  if(LIVE()){
+    try{ await api('/api/connections',{method:'POST',body:{recipient:id}});
+      flashNotif("Connection request sent!"); await loadConnections(); renderPeers();
+    }catch(e){flashNotif(e.message);}
+    return;
+  }
+  const p=state.peers.find(x=>x.id===id);
+  if(state.connections.some(c=>c.id===id)){flashNotif("You're already connected with "+p.name+".");return;}
+  state.connections.push(p);saveState();flashNotif("Connected with "+p.name+"! Say hello in Messages.");
+  updateChatBadge();renderPeers();
+}
+async function message(id){
+  if(LIVE()){
+    // In live mode you can only open a chat with an ACCEPTED connection.
+    await loadConnections();
+    if(!state.connections.some(c=>c.id===id)){
+      flashNotif("You can message once the connection is accepted.");
+      return;
+    }
+    state.activeChat=id; updateChatBadge(); go('chat'); return;
+  }
+  const p=state.peers.find(x=>x.id===id);
+  if(!state.connections.some(c=>c.id===id))state.connections.push(p);
+  state.activeChat=id;saveState();updateChatBadge();go('chat');
+}
+async function respondRequest(connId, action){
+  try{
+    await api('/api/connections/'+connId+'/respond',{method:'POST',body:{action}});
+    flashNotif(action==='accept'?'Connection accepted! You can now message.':'Request declined.');
+    await loadConnections(); await loadRequests(); updateChatBadge(); renderPeers(); renderRequestsBanner();
+  }catch(e){flashNotif(e.message);}
+}
+async function loadRequests(){
+  if(!LIVE()){state.requests=[];return;}
+  try{ state.requests = await api('/api/requests'); }catch(e){ state.requests=[]; }
+}
+async function reportUser(id,name){
+  if(!confirm('Report '+name+'? Our team will review this account.'))return;
+  try{ await api('/api/report',{method:'POST',body:{reported:id,reason:'reported from app'}});
+    flashNotif('Thanks — '+name+' has been reported for review.');
+  }catch(e){flashNotif(e.message);}
+}
+async function blockUser(id,name){
+  if(!confirm('Block '+name+'? They will be hidden and any connection removed.'))return;
+  try{ await api('/api/block',{method:'POST',body:{blocked:id}});
+    flashNotif(name+' has been blocked.');
+    await loadConnections(); updateChatBadge(); renderPeers();
+    if(state.activeChat===id){state.activeChat=null;}
+  }catch(e){flashNotif(e.message);}
+}
+function renderRequestsBanner(){
+  const box=document.getElementById('requestsBanner');
+  if(!box)return;
+  const reqs=state.requests||[];
+  if(!LIVE()||!reqs.length){box.innerHTML='';return;}
+  let cards=reqs.map(r=>{
+    const ex=EXAMS[r.exam];
+    return `<div class="req-card">
+      <div class="avatar ${r.gender.toLowerCase()}" style="width:40px;height:40px;font-size:18px;border-radius:11px">${avatarChar(r.gender)}</div>
+      <div style="flex:1;min-width:0">
+        <div class="req-name">${r.name}</div>
+        <div class="req-sub">${ex?ex.label:r.exam} · ${r.step}</div>
+      </div>
+      <button class="req-accept" onclick="respondRequest(${r.connection_id},'accept')">Accept</button>
+      <button class="req-decline" onclick="respondRequest(${r.connection_id},'decline')">Decline</button>
+    </div>`;
+  }).join('');
+  box.innerHTML=`<div class="req-wrap">
+    <div class="req-title">📬 ${reqs.length} connection request${reqs.length>1?'s':''}</div>
+    ${cards}
+  </div>`;
+}
+async function loadConnections(){
+  if(!LIVE())return;
+  try{
+    const rows=await api('/api/connections');
+    state.connections=rows.map(r=>({id:r.id,name:r.name,gender:r.gender,exam:r.exam,step:r.step,tz:r.timezone||'UTC+0'}));
+  }catch(e){}
+}
+async function updateChatBadge(){
+  const b=document.getElementById('chatBadge');
+  let n=0;
+  if(LIVE()){
+    try{ const r=await api('/api/unread'); n=r.unread||0; }catch(e){ n=0; }
+  }else{
+    n=0; // demo mode has no unread tracking
+  }
+  if(n>0){b.style.display='inline-block';b.innerText=n;}else b.style.display='none';
+}
+async function renderChat(silent){
+  if(LIVE())await loadConnections();
+  const side=document.getElementById('connList');side.innerHTML='';
+  if(!state.connections.length){side.innerHTML='<div style="font-size:13px;color:var(--muted);padding:8px;font-style:italic">No connections yet. Connect with doctors from Partners.</div>';}
+  state.connections.forEach(c=>{
+    const it=document.createElement('div');
+    it.className='conn-item'+(state.activeChat===c.id?' active':'');
+    it.onclick=()=>{state.activeChat=c.id;renderChat();};
+    it.innerHTML=`<div class="avatar ${c.gender.toLowerCase()}" style="width:38px;height:38px;font-size:17px;border-radius:11px">${avatarChar(c.gender)}</div>
+      <div><div class="conn-name">${c.name}</div><div class="conn-sub">${EXAMS[c.exam]?EXAMS[c.exam].label:c.exam} · ${c.step}</div></div>`;
+    side.appendChild(it);
+  });
+  const stream=document.getElementById('chatStream');
+  const peer=state.connections.find(c=>c.id===state.activeChat);
+  if(!peer){
+    document.getElementById('chatName').innerText='No conversation selected';
+    document.getElementById('chatSub').innerText='Pick a connection from the left to start chatting';
+    stream.innerHTML='<div class="bubble them">Select a connection to start a conversation.</div>';return;
+  }
+  document.getElementById('chatName').innerText=peer.name;
+  document.getElementById('chatSub').innerText=`${EXAMS[peer.exam]?EXAMS[peer.exam].label:peer.exam} · ${peer.step} · ${peer.tz}`;
+
+  let msgs;
+  if(LIVE()){
+    if(!silent)stream.innerHTML='<div class="bubble them">Loading…</div>';
+    try{
+      const rows=await api('/api/messages/'+peer.id);
+      _lastMsgCount=rows.length;
+      msgs=rows.map(m=>{
+        let time='';
+        try{
+          const d=new Date(m.created_at);
+          if(!isNaN(d)) time=d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+        }catch(_){}
+        return {sender:m.mine?'me':'them',text:m.body,time};
+      });
+    }catch(e){stream.innerHTML='<div class="bubble them">'+e.message+'</div>';return;}
+  }else{
+    msgs=state.messages[peer.id]||[];
+  }
+  stream.innerHTML='';
+  if(!msgs.length){stream.innerHTML=`<div class="bubble them">Hi! I'm preparing for ${peer.step}. Glad to connect — what's your timeline looking like?</div>`;}
+  msgs.forEach(m=>{const b=document.createElement('div');b.className='bubble '+m.sender;b.innerHTML=m.text+`<span class="bubble-time">${m.time}</span>`;stream.appendChild(b);});
+  stream.scrollTop=stream.scrollHeight;
+  if(LIVE())updateChatBadge(); // messages just got marked read on the server
+}
+async function sendMsg(){
+  const inp=document.getElementById('chatInput'),t=inp.value.trim();
+  if(!t||!state.activeChat)return;
+  const id=state.activeChat;
+  if(LIVE()){
+    inp.value='';
+    try{ await api('/api/messages/'+id,{method:'POST',body:{body:t}}); await renderChat(); }
+    catch(e){flashNotif(e.message);}
+    return;
+  }
+  if(!state.messages[id])state.messages[id]=[];
+  const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  state.messages[id].push({sender:'me',text:t,time});
+  inp.value='';saveState();renderChat();
+  setTimeout(()=>{
+    const peer=state.peers.find(p=>p.id===id);
+    const replies=[
+      `That works for me. I'm usually free ${tzNum(peer.tz)<0?'evenings my time':'mornings my time'} — shall we set a recurring slot?`,
+      "Sounds good. Want to start by splitting topics this week and comparing notes?",
+      "Agreed — let's do timed question blocks and review the ones we both miss.",
+      "Perfect. I'll send over the resources I'm using so we're aligned."
+    ];
+    state.messages[id].push({sender:'them',text:replies[Math.floor(Math.random()*replies.length)],time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
+    saveState();if(state.activeChat===id)renderChat();
+  },1100);
+}
+
+/* ---------- Modal / profile ---------- */
+function openModal(){
+  const ex=document.getElementById('p-exam');
+  if(!ex.options.length)Object.entries(EXAMS).forEach(([c,e])=>{const o=document.createElement('option');o.value=c;o.text=e.label;ex.appendChild(o);});
+  if(state.profile){
+    document.getElementById('p-name').value=state.profile.name;
+    document.getElementById('p-gender').value=state.profile.gender;
+    document.getElementById('p-exam').value=state.profile.exam;
+    document.getElementById('p-level').value=state.profile.level;
+    document.getElementById('p-date').value=state.profile.date;
+    document.getElementById('p-tz').value=state.profile.tz;
+    document.getElementById('p-institution').value=state.profile.institution||'';
+    document.getElementById('p-bio').value=state.profile.bio||'';
+  }
+  syncModalSteps();
+  if(state.profile)document.getElementById('p-step').value=state.profile.step;
+  document.getElementById('overlay').classList.add('show');
+}
+function closeModal(){document.getElementById('overlay').classList.remove('show');}
+function syncModalSteps(){
+  const exam=document.getElementById('p-exam').value,sd=document.getElementById('p-step');
+  sd.innerHTML='';(EXAMS[exam]?EXAMS[exam].steps:[]).forEach(s=>{const o=document.createElement('option');o.value=s;o.text=s;sd.appendChild(o);});
+}
+async function saveProfile(){
+  const name=document.getElementById('p-name').value.trim()||"Dr. Ali Altaf";
+  const prof={
+    name,gender:document.getElementById('p-gender').value,
+    exam:document.getElementById('p-exam').value,step:document.getElementById('p-step').value,
+    level:document.getElementById('p-level').value,date:document.getElementById('p-date').value,
+    tz:document.getElementById('p-tz').value,
+    institution:document.getElementById('p-institution').value.trim(),
+    bio:document.getElementById('p-bio').value.trim()
+  };
+  if(LIVE()){
+    try{
+      await api('/api/me',{method:'PUT',body:{
+        name:prof.name,country:'',timezone:prof.tz,exam:prof.exam,step:prof.step,
+        level:prof.level,exam_date:prof.date,bio:prof.bio,institution:prof.institution
+      }});
+      state.profile=prof;
+    }catch(e){flashNotif(e.message);return;}
+  }else{
+    state.profile=prof; saveState();
+  }
+  document.getElementById('profileBtn').innerText='👤 '+name.replace(/^Dr\.?\s*/,'').split(' ')[0];
+  closeModal();flashNotif("Profile saved — partners are now ranked for you!");
+  go('browse');
+}
+
+/* ---------- Auth (LIVE mode) ---------- */
+let authMode='login';
+function showAuth(){ document.getElementById('authGate').style.display='flex'; }
+function hideAuth(){ document.getElementById('authGate').style.display='none'; }
+function toggleAuthMode(ev){
+  if(ev)ev.preventDefault();
+  authMode = authMode==='login' ? 'register' : 'login';
+  const reg=authMode==='register';
+  document.getElementById('regOnly').style.display=reg?'block':'none';
+  document.getElementById('authTitle').innerText=reg?'Create your account':'Welcome back';
+  document.getElementById('authSub').innerText=reg?'Join the network of doctors finding study partners.':'Log in to find your study partners.';
+  document.getElementById('authSubmit').innerText=reg?'Create account':'Log in';
+  document.getElementById('authToggleText').innerText=reg?'Already have an account?':'New here?';
+  document.getElementById('authToggleLink').innerText=reg?'Log in':'Create an account';
+  document.getElementById('authError').style.display='none';
+}
+function authErr(msg){const e=document.getElementById('authError');e.innerText=msg;e.style.display='block';}
+async function submitAuth(){
+  const email=document.getElementById('au-email').value.trim();
+  const pass=document.getElementById('au-pass').value;
+  if(!email||!pass){authErr('Email and password are required.');return;}
+  try{
+    let data;
+    if(authMode==='register'){
+      const name=document.getElementById('au-name').value.trim()||'Dr. New User';
+      const gender=document.getElementById('au-gender').value;
+      data=await api('/api/auth/register',{method:'POST',body:{email,password:pass,name,gender}});
+    }else{
+      data=await api('/api/auth/login',{method:'POST',body:{email,password:pass}});
+    }
+    Auth.set(data.token);
+    if(data.user){
+      state.profile={name:data.user.name,gender:data.user.gender,exam:data.user.exam,step:data.user.step,
+        level:data.user.level,date:data.user.exam_date,tz:data.user.timezone,bio:data.user.bio};
+    }
+    hideAuth(); await afterLogin();
+  }catch(e){authErr(e.message);}
+}
+function logout(){ Auth.set(null); state.profile=null; state.connections=[]; location.reload(); }
+
+async function afterLogin(){
+  document.getElementById('logoutBtn').style.display='';
+  // pull fresh profile
+  try{
+    const me=await api('/api/me');
+    state.profile={name:me.name,gender:me.gender,exam:me.exam,step:me.step,level:me.level,date:me.exam_date,tz:me.timezone,bio:me.bio,institution:me.institution};
+    if(me.name)document.getElementById('profileBtn').innerText='👤 '+me.name.replace(/^Dr\.?\s*/,'').split(' ')[0];
+  }catch(e){}
+  await loadConnections(); updateChatBadge(); renderHome(); go('home');
+  startPresencePing();
+  // prompt profile setup if incomplete
+  if(!state.profile||!state.profile.exam){flashNotif('Set up your profile to get matched!');openModal();}
+}
+let _pingTimer=null;
+function startPresencePing(){
+  if(!LIVE()||_pingTimer)return;
+  const ping=()=>{ api('/api/ping',{method:'POST'}).catch(()=>{}); };
+  ping(); // immediately
+  _pingTimer=setInterval(ping,120000); // every 2 minutes while app is open
+}
+
+/* ---------- Init ---------- */
+buildExamFilter();
+if(LIVE()){
+  if(Auth.loggedIn()){ renderHome(); afterLogin(); }
+  else { renderHome(); showAuth(); }
+}else{
+  loadState();renderHome();updateChatBadge();
+  if(state.profile)document.getElementById('profileBtn').innerText='👤 '+state.profile.name.replace(/^Dr\.?\s*/,'').split(' ')[0];
+}
+
+/* ---------- PWA: service worker + install prompt ---------- */
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',(e)=>{
+  e.preventDefault();deferredPrompt=e;
+  document.getElementById('installBtn').style.display='inline-block';
+});
+function installApp(){
+  if(!deferredPrompt)return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(()=>{deferredPrompt=null;document.getElementById('installBtn').style.display='none';});
+}
+window.addEventListener('appinstalled',()=>{document.getElementById('installBtn').style.display='none';flashNotif('MedConnect installed!');});
+document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeModal();});
+</script>
+</body>
+</html>
