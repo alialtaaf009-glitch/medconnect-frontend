@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/.well-known/assetlinks.json"
+  to = "/assetlinks-file.json"
+  status = 200
+  force = true
